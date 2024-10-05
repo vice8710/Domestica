@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login_screen.dart'; // Import your login screen
 
 class EmailSignUp extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -8,26 +9,26 @@ class EmailSignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign up with Email')),
+      appBar: AppBar(title: const Text('Sign up with Email')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 signUpWithEmail(context);
               },
-              child: Text('Sign Up'),
+              child: const Text('Sign Up'),
             ),
           ],
         ),
@@ -42,10 +43,15 @@ class EmailSignUp extends StatelessWidget {
         password: passwordController.text,
       );
       print("User signed up: ${userCredential.user?.email}");
-      // Optionally navigate to a different screen after signup
+
+      // Navigate to LoginPage after successful sign-up
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()), // Navigate to your login screen
+      );
+      
     } catch (e) {
       print("Error: $e");
-      // Show error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sign up failed: ${e.toString()}')),
       );

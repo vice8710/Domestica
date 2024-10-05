@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'auth_service.dart'; // Import the AuthService
-import 'HomePage.dart';   // Import the HomePage for successful login
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/auth_service.dart';
+import 'HomePage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AuthService _authService = AuthService(); // Create an instance of AuthService
+  final AuthService _authService = AuthService();
   String _email = '';
   String _password = '';
 
@@ -16,14 +17,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
               onChanged: (value) {
                 setState(() {
                   _email = value;
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
               onChanged: (value) {
                 setState(() {
@@ -39,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _signIn,
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),
@@ -53,15 +54,13 @@ class _LoginPageState extends State<LoginPage> {
   void _signIn() async {
     User? user = await _authService.signInWithEmail(_email, _password);
     if (user != null) {
-      // Navigate to the home screen on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()), // Replace with your HomePage
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else {
-      // Show an error message if login fails
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sign-in failed. Please try again.')),
+        const SnackBar(content: Text('Sign-in failed. Please try again.')),
       );
     }
   }

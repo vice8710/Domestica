@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
-import 'onboarding_screen.dart'; // Make sure this is the correct import for your onboarding screen
-import 'login_page.dart'; // Import your LoginPage
+import 'package:firebase_core/firebase_core.dart';
+import '../screens/onboarding_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBIvsbvO3sfmT1r6-QEZlyN3fvgnLA83uc",
+      authDomain: "domestica-bb2da.firebaseapp.com",
+      projectId: "domestica-bb2da",
+      storageBucket: "domestica-bb2da.appspot.com",
+      messagingSenderId: "402282842058",
+      appId: "1:402282842058:web:f4bc973e5555fca6cff133",
+    ),
+  );
   runApp(MyApp());
 }
 
@@ -14,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OnboardingScreen(), // Set the OnboardingScreen as the initial screen
+      home: OnboardingScreen(), // Start with onboarding screen
     );
   }
 }
